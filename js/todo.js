@@ -25,10 +25,12 @@ $(document)
 
         $("#button").click(function () {
             var todoItem = $("input[name=ListItem]").val();
-            // console.log(todoItem);
-            todoItem = "<li id=" + generateUUID() + " class=\"\">" +
-                "<input name=\"done-todo\" type=\"checkbox\" class=\"done-todo\">" + todoItem + "</li>"
-            $("ol").append(todoItem);
+            if (todoItem != "") {
+                todoItem = "<li id=" + generateUUID() + " class=\"\">" +
+                    "<input name=\"done-todo\" type=\"checkbox\" class=\"done-todo\">" + todoItem + "</li>"
+                $("ol").append(todoItem);
+                $("input[name=ListItem]").val("")
+            }
         })
 
         // switch todo item status
@@ -39,7 +41,7 @@ $(document)
         // modify todo item
         $(document).on("click", "li", function () {
             var html = $(this).html().toString();
-            var todoItemText = html.substr(html.indexOf(">"),html.length)
+            var todoItemText = html.substr(html.indexOf(">"), html.length)
             // console.log(todoItemText);
             // $(this).replaceWith()
             $(this).attr('contentEditable', 'true');
@@ -47,6 +49,7 @@ $(document)
 
         // show all undone items
         $(".active").click(function () {
+            $("input[type='checkbox']").parent().css("display", "");
             $("li.checked").css("display", "none");
         })
 
@@ -55,4 +58,8 @@ $(document)
             $("li.checked").css("display", "");
         })
 
+        $(".complete").click(function () {
+            $("input[type='checkbox']").parent().css("display", "none");
+            $("li.checked").css("display", "");
+        })
     });
